@@ -1,0 +1,36 @@
+version: '3.7'
+
+volumes:
+  mysqltrans:
+  sqltrans:  
+
+services:
+    transaction:
+        build: . 
+        ports:
+            - "5005:5004"
+            - "5007:5007"
+        volumes:
+            - .:/code
+        command: bash -c "pm2 start ./consumer.py && pm2 start ./transgrpc.py --no-daemon"
+        networks:
+          - server_kafka_net
+    mysqltransdb:
+        command: mysqld
+        image: mysql:5.7
+        ports:
+          - '3308:3306'
+        environment:
+           MYSQL_DATABASE: 'transaction'
+           MYSQL_USER: 'transaction'
+           MYSQL_PASSWORD: 'osmentos'
+           MYSQL_ROOT_PASSWORD: 'osmentos'
+        volumes:
+          - ./mysqltrans:/var/lib/mysqltran
+          - ./sqltrans:/docker-entrypoint-initdb.d
+        networks:
+          - server_kafka_net
+
+networks:
+   server_kafka_net:
+     external: true

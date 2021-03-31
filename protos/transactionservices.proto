@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+import "protos/transrequestmesg.proto";
+import "protos/transresponsemesg.proto";
+
+service TransactionServices {
+    rpc getBalance (TransRequestMesg) returns (TransResponseMesg) {}
+}
+

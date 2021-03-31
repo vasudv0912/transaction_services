@@ -1,0 +1,6 @@
+kafka-python
+SQLAlchemy
+mysqlclient
+grpcalchemy
+grpcio-tools
+grpc_tools
